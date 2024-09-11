@@ -3,8 +3,7 @@ import { initMongoConnection } from "./db/initMongoConnection.js";
 
 const bootstrap = async () => {
   await initMongoConnection();
-  setupServer();
-  console.log('Запуск сервера'); 
+  setupServer(); 
 };
 
 bootstrap();
