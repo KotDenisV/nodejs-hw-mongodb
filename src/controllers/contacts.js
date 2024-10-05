@@ -14,13 +14,16 @@ export const getContactsController = async (req, res) => {
 
     const filter = parseFilterParams(req.query);
 
+    const userId = req.user._id;
+
     
     const contacts = await getAllContacts({
         page,
         perPage,
         sortBy,
         sortOrder,
-        filter,       
+        filter,
+        userId,
     });
 
      res.json({
@@ -70,7 +73,7 @@ export const patchContactController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Successfully patched a contact!',
-    data: result.contact,
+    data: result,
   });
 };
 

@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { FIFTEEN_MINUTES, ONE_DAY } from "../constants/index.js";
 import { SessionsCollection } from "../db/models/session.js";
-import { Session } from "inspector";
 
 export const registerUser = async (payload) => {
     const user = await UsersCollection.findOne({ email: payload.email });
@@ -21,7 +20,7 @@ export const registerUser = async (payload) => {
 export const loginUser = async (payload) => {
     const user = await UsersCollection.findOne({ email: payload.email });
     if (!user) {
-        throw createHttpError(404, 'Usrr not found');
+        throw createHttpError(404, 'User not found');
     }
     const isEqual = await bcrypt.compare(payload.password, user.password);
     if (!isEqual) {
@@ -54,7 +53,7 @@ const createSession = () => {
         accessToken,
         refreshToken,
         accessTokenValidUntil: new Date(Date.now + FIFTEEN_MINUTES),
-        refreshTokenValidUntil: new Date(Date.now + ONE_DAY)
+        refreshTokenValidUntil: new Date(Date.now + ONE_DAY),
     };
 };
 
