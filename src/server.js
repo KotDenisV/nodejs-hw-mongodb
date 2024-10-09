@@ -7,6 +7,7 @@ import router from './routers/index.js';
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import cookieParser from "cookie-parser";
+import { UPLOAD_DIR } from "./constants/index.js";
 
 dotenv.config();
 const PORT = Number(env('PORT', '3000'));
@@ -15,7 +16,7 @@ export function setupServer() {
     
     const app = express();    
   
-    app.use(express.json());
+    app.use(express.json());    
     app.use(cors());
     app.use(cookieParser());
   
@@ -28,6 +29,8 @@ export function setupServer() {
     );    
      
     app.use(router);
+  
+    app.use('/uploads', express.static(UPLOAD_DIR));
   
     app.use('*', notFoundHandler);
 

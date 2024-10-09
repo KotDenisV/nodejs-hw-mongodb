@@ -8,6 +8,7 @@ const contactsSchema = new Schema(
     isFavourite: { type: Boolean, default: false },
     contactType: { type: String, required: true, enum: ['work', 'home', 'personal'], default: 'personal' },
     userId: { type: Schema.Types.ObjectId, ref: 'users' },
+    photo: { type: String },
   },
   { timestamps: true, versionKey: false },
 );
