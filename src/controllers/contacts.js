@@ -6,9 +6,7 @@ import createHttpError from "http-errors";
 import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import { parseFilterParams } from "../utils/parseFilterParams.js";
-import { saveFileToUploadDir } from "../utils/saveFileToUploadDir.js";
-import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
-import { env } from "../utils/env.js";
+import { saveImage } from "../utils/saveImage.js";
 
 export const getContactsController = async (req, res) => {
     const { page, perPage } = parsePaginationParams(req.query);
@@ -54,7 +52,19 @@ export const getContactByIdController = async (req, res) => {
 
 export const createContactController = async (req, res) => {
     const { _id: userId } = req.user;
-    const contactData = { ...req.body, userId }; 
+    const photo = req.file;
+    let photoUrl;
+  
+    if (photo) {
+      photoUrl = await saveImage(photo);
+    }
+
+    const contactData = {
+    ...req.body,
+    userId,
+    photo: photoUrl,
+  };
+  
     const contact = await createContact(contactData);
 
     res.status(201).json({
@@ -72,12 +82,8 @@ export const patchContactController = async (req, res, next) => {
   let photoUrl;
 
   if (photo) {
-    if (env('ENABLE_CLOUDINARY') === 'true') {
-      photoUrl = await saveFileToCloudinary(photo);
-    } else {
-      photoUrl = await saveFileToUploadDir(photo);
-    }
-  }    
+    photoUrl = await saveImage(photo);
+  }
   
     const result = await updateContact(contactId, userId, {
         ...req.body,
