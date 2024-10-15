@@ -25,7 +25,7 @@ properties:
     description: 'Is favourite contact or not. Should be false or true'
     type: boolean
     example: false
-  contactType::
+  contactType:
     description: 'The category to which the contact belongs'
     type: string
     enum: ['work', 'home', 'personal']
