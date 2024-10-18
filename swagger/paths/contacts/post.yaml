@@ -35,12 +35,8 @@ requestBody:
             description: 'The category to which the contact belongs'
             type: string
             enum: ['work', 'home', 'personal']
-          userId:
-            description: "Contact's user id"
-            type: string
-            example: 65e4decdd286b30065d54af9
           photo:
-            description: "Contact's photo"
+            description: "Linc to a contact's photo"
             type: string
             format: binary
 responses:
